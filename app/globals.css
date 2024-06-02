@@ -82,8 +82,8 @@
 
 p,
 a {
-  font-family: var(--font-quicksand);
-  font-weight: 600;
+  font-family: var(--font-netflix);
+  font-weight: 400;
 }
 
 @layer utilities {
@@ -92,14 +92,14 @@ a {
   }
 
   .header {
-    @apply container flex justify-between  items-center;
+    @apply container max-w-[1600px] flex justify-between w-full items-center left-1/2 -translate-x-1/2 fixed z-50;
   }
   .header-auth {
-    @apply flex space-x-2;
+    @apply md:flex hidden space-x-2;
   }
 
   .footer {
-    @apply container;
+    @apply container max-w-[1600px];
   }
 
   .footer-container-link {

@@ -1,19 +1,25 @@
 import type { Metadata } from "next";
 import { Nunito, Quicksand } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Footer, Header } from "@/components/shared";
 
-const nunito = Nunito({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-nunito",
-});
-
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "600", "700"],
-  variable: "--font-quicksand",
+const netflix = localFont({
+  src: [
+    {
+      path: "./styles/fonts/Netflix-Sans-Bold.otf",
+      weight: "700",
+    },
+    {
+      path: "./styles/fonts/Netflix-Sans-Light.otf",
+      weight: "400",
+    },
+    {
+      path: "./styles/fonts/Netflix-Sans-Medium.otf",
+      weight: "600",
+    },
+  ],
+  variable: "--font-netflix",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${quicksand.variable} ${nunito.variable}`}>
+      <body className={`${netflix.variable} `}>
         <Header />
         {children}
         <Footer />

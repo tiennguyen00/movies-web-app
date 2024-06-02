@@ -6,7 +6,9 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <header className="header">
-      <Logo ratio={0.5} />
+      <Link href="/">
+        <Logo ratio={0.75} />
+      </Link>
       <div className="header-auth">
         <Button variant="default" asChild>
           <Link href={"/login"} className="text-md !font-bold">

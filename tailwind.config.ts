@@ -84,11 +84,10 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        nunito: ["var(--font-nunito)"],
-        quicksand: ["var(--font-quicksand)"],
+        netflix: ["var(--font-netflix)"],
       },
       backgroundImage: {
-        "banner-login": "url('/images/banner-login.png)",
+        "banner-login": "url('/images/banner-login.png')",
       },
     },
   },

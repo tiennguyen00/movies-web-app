@@ -2,7 +2,7 @@ import React from "react";
 
 export const Footer = () => {
   return (
-    <footer className="header">
+    <footer className="footer">
       <div className="w-full">
         <p className="footer-text-link mb-6">Question? Contact us.</p>
         <div className="footer-container-link">

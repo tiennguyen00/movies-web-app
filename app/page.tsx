@@ -27,7 +27,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-black/80 from-20% via-transparent via-50% to-black/80 to-80%" />
+        <div className="gradient-banner" />
       </div>
     </main>
   );

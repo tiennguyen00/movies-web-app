@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <header className="header">
       <Link href="/">
-        <Logo ratio={0.75} />
+        <Logo ratio={0.65} />
       </Link>
       <div className="header-auth">
         <Button variant="default" asChild>

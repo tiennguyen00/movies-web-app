@@ -8,7 +8,7 @@
     --foreground: 0 0 100%;
     --forgeround-smoke: 214.3 31.8% 91.4%;
 
-    --card: 0 3% 15%;
+    --card: 0 0% 8%;
     --card-foreground: 0 0 100%;
 
     --popover: 0 0% 100%;
@@ -88,7 +88,11 @@ a {
 
 @layer utilities {
   .container {
-    @apply px-6 md:px-24 py-6;
+    @apply px-6 md:px-40 py-6;
+  }
+
+  .gradient-banner {
+    @apply absolute inset-0 w-full h-full bg-gradient-to-b from-black/80 from-20% via-transparent via-50% to-black/80 to-80%;
   }
 
   .header {

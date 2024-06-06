@@ -1,11 +1,10 @@
 import React from "react";
 
-export const Logo = ({ ratio = 1 }: { ratio?: number }) => {
+export const Logo = () => {
   return (
     <svg
-      scale="0.5"
-      width={`${299 * ratio}`}
-      height={`${72 * ratio}`}
+      // className="scale-[.6]"
+      className="w-[100] h-[24px] lg:w-[200px] lg:h-[48px]"
       viewBox="0 0 299 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

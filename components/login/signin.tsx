@@ -1,6 +1,6 @@
 import {
   getLoggedInUser,
-  onSubmitUser,
+  onValidateUser,
   signIn,
   signUp,
 } from "@/lib/actions/user.actions";
@@ -18,48 +18,88 @@ import { Loader2 } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import Link from "next/link";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormField } from "../ui/form";
 import { formSchema } from "@/lib/actions/schema";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "../ui/use-toast";
+
+const initialState = {
+  errors: {
+    email: undefined,
+    password: undefined,
+  },
+  message: undefined,
+};
+
+const SubmitButton = ({ isPending }: { isPending: boolean }) => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button className="h-10 w-full" type="submit">
+      {pending || isPending ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        "Sign In"
+      )}
+    </Button>
+  );
+};
 
 export const SignIn = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const initialValues = {
-    email: "",
-    password: "",
-  };
-
-  const initialState = {
-    errors: {
-      email: undefined,
-      password: undefined,
+  const { toast } = useToast();
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }),
+    onSuccess: (res) => {
+      if (res.status !== 200) {
+        toast({
+          title: "Error",
+          description: res.statusText,
+          variant: "destructive",
+        });
+        return;
+      }
     },
-    message: undefined,
-  };
-
-  const check = async () => {
-    const loggedInUser = await getLoggedInUser();
-    console.log(loggedInUser);
-  };
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: initialValues,
-    mode: "onChange",
+    onError: (err) => {
+      console.log("error: ", err);
+    },
   });
-  const [state, formAction] = useFormState(onSubmitUser, initialState);
+  const form = useForm<z.infer<typeof formSchema>>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const [state, formAction] = useFormState(onValidateUser, initialState);
 
   useEffect(() => {
     if (state?.errors.email) {
       form.setError("email", { message: state?.errors.email[0] });
+    } else {
+      form.clearErrors("email");
     }
     if (state?.errors.password) {
       form.setError("password", { message: state?.errors.password[0] });
+    } else {
+      form.clearErrors("password");
     }
-  }, [form, state?.errors]);
+
+    if (state === null) {
+      mutate({
+        email: form.getValues("email"),
+        password: form.getValues("password"),
+      });
+    }
+  }, [form, state, state?.errors]);
 
   return (
     <Card className="z-10 pt-16 sm:py-12 px-1 sm:px-12 w-[460px]">
@@ -96,13 +136,7 @@ export const SignIn = () => {
                 </p>
               )}
 
-              <Button className="h-10 w-full" type="submit">
-                {isLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
+              <SubmitButton isPending={isPending} />
               <p>OR</p>
               <Button variant="secondary" className="h-10 w-full">
                 Use a Sign-In Code

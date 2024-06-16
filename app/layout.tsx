@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Nunito, Quicksand } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Footer, Header } from "@/components/shared";
+import { Toaster } from "@/components/ui/toaster";
+import Provider from "@/provider";
 
 const netflix = localFont({
   src: [
@@ -35,8 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${netflix.variable} `}>
+        <Toaster />
         <Header />
-        {children}
+        <Provider>{children}</Provider>
         <Footer />
       </body>
     </html>

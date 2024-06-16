@@ -4,8 +4,8 @@ import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../server/appwrite";
 import { formSchema } from "./schema";
 
-export async function onSubmitUser(
-  prevState: { message: string | undefined } | undefined,
+export async function onValidateUser(
+  state: { message: string | undefined } | null,
   formData: FormData
 ) {
   const email = formData.get("email");
@@ -21,7 +21,7 @@ export async function onSubmitUser(
       message: undefined,
     };
   }
-  if (email && password) await signIn(email as string, password as string);
+  return null;
 }
 
 export const signUp = async (email: string, password: string) => {
@@ -50,7 +50,9 @@ export const signIn = async (email: string, password: string) => {
     const session = await account.createEmailPasswordSession(email, password);
 
     return JSON.parse(JSON.stringify(session));
-  } catch {}
+  } catch {
+    return null;
+  }
 };
 
 export async function getLoggedInUser() {
